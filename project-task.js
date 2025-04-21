@@ -91,3 +91,41 @@ Step-by-Step:
 // console.log("Uppercased names:", ...);
 // console.log("Discounted products:", ...);
 // console.log("Total value in stock:", ...);
+
+
+function filterProducts(productsArray, callback) {
+  return productsArray.filter(callback);
+} 
+
+const inStockOnly = filterProducts(products, function(product) {
+  return product.inStock === true;
+});
+console.log("Filtered products:", inStockOnly);
+
+const uppercasedNames = products.map(function(product) {
+  return product.name.toUpperCase();
+});
+console.log("Uppercased names:", uppercasedNames);
+
+function applyDiscount(discountPercent) {
+  return function(product) {
+    return {
+      ...product, //keep all existing product properties
+      discountedPrice: product.price * (1 - discountPercent / 100)
+    };
+  };
+}
+
+const discountedProducts = products.map(applyDiscount(20));
+console.log("Discounted products:", discountedProducts);
+
+const totalInventoryValue = products.reduce(function(total, product) {
+  if (product.inStock) {
+    return total + product.price;
+  } else {
+    return total; 
+  }
+  }, 0);
+
+  console.log("Total value in stock:", totalInventoryValue);
+  
